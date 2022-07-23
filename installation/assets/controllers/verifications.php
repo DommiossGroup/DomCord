@@ -34,7 +34,7 @@ if (isset($_POST['state2confirm'])) {
     if (!isset($_POST['lang']) or empty($_POST['lang']))
         return $generror = "<div class='alert alert-danger'>Veuillez renseigner <b>tous</b> les champs.</div>";
 
-    switch (firstConfiguration(htmlspecialchars($_POST['name']), "domcord_default_theme", htmlspecialchars($_POST['description']), 'dc', htmlspecialchars($_POST['lang']))) {
+    switch (firstConfiguration(htmlspecialchars($_POST['name']), "DomCord-Default-Theme-main", htmlspecialchars($_POST['description']), 'dc', htmlspecialchars($_POST['lang']))) {
         case true:
             $generror = "<div class='alert alert-success'>Les paramètres ont bien été enregistrés.</div>";
             echo '<meta http-equiv="refresh" content="1;URL=index.php">';
