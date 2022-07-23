@@ -6,7 +6,7 @@ if (!(isset($_SESSION['id']))) {
     $userrank['PERMISSION_LEVEL'] = 1;
 }
 
-if (!isset($_GET['id']) or !ctype_digit($_GET['id'])) {
+if (!isset($_GET['id']) or !is_numeric($_GET['id'])) {
 
     echo '<meta http-equiv="refresh" content="0;URL=?page=error.404">';
     die();
@@ -83,6 +83,8 @@ if (isset($_SESSION['id'])) {
 
             if (!empty($_GET['messageid'])) {
 
+                if (!is_numeric(($_GET['messageid']))) die();
+
                 $cfme = $bdd->prepare("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_messages WHERE TOPIC_ID = ? AND STATUS = 0 AND id = ?");
                 $cfme->execute(array(htmlspecialchars($_GET['id']), htmlspecialchars($_GET['messageid'])));
 
@@ -134,9 +136,9 @@ if (isset($_GET['id'])) {
         $sfc->execute(array(htmlspecialchars($_GET['id'])));
         $sfcnb = $sfc->rowCount();
         $sfc = $sfc->fetch();
-        $pagetitle = $sfc['NAME'];
 
         if ($sfcnb > 0) {
+            $pagetitle = $sfc['NAME'];
 
             $lom = $bdd->prepare("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_messages WHERE TOPIC_ID = ? "); // List of messages
             $lom->execute(array($sfc['id'])); // List of messages
@@ -172,16 +174,18 @@ if ($cfp['PERMISSION_SEE_LEVEL'] > $userrank['PERMISSION_LEVEL']) {
     die();
 }
 
-if (isset($_POST['reply'])) {
+if (isset($_GET['id'])) {
+    if (isset($_POST['reply'])) {
 
-    if (isset($_POST['content']) and !empty($_POST['content'])) {
+        if (isset($_POST['content']) and !empty($_POST['content'])) {
 
-        $insert = $bdd->query("INSERT INTO `" . $_Config_['Database']['table_prefix'] . "_messages`(`USER_ID`, `CONTENT`, `DATE_POST`, `TOPIC_ID`, `FORUM_ID`) VALUES (" . $userinfo['id'] . ",'" . $_POST['content'] . "',NOW()," . $sfc['id'] . "," . $sfc['FORUM_ID'] . ")");
+            $insert = $bdd->prepare("INSERT INTO `" . $_Config_['Database']['table_prefix'] . "_messages`(`USER_ID`, `CONTENT`, `DATE_POST`, `TOPIC_ID`, `FORUM_ID`, `STATUS`) VALUES (?,?,NOW(),?,?,0)");
+            $insert->execute(array($userinfo['id'], $_POST['content'], $sfc['id'], $sfc['FORUM_ID']));
 
-
-        $error = '<div class="alert alert-success"><p><strong><i class="fas fa-check-circle"></i></strong> Your message has been sended with success !</p></div><meta http-equiv="REFRESH" content="0;url=?page=topic&id=' . htmlspecialchars($_GET['id']) . '">';
-    } else {
-        $error = "<div class='alert alert-danger'><strong><i class='fas fa-exclamation-circle text-danger'></i></strong> Please type a valid message.</div>";
+            $error = '<div class="alert alert-success"><p><strong><i class="fas fa-check-circle"></i></strong> Your message has been sended with success !</p></div><meta http-equiv="REFRESH" content="0;url=?page=topic&id=' . htmlspecialchars($_GET['id']) . '">';
+        } else {
+            $error = "<div class='alert alert-danger'><strong><i class='fas fa-exclamation-circle text-danger'></i></strong> Please type a valid message.</div>";
+        }
     }
 }
 

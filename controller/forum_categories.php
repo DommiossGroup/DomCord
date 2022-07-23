@@ -53,7 +53,7 @@ if (isset($_SESSION['id'])) {
             $cfi = $bdd->query("SELECT * FROM `" . $_Config_['Database']['table_prefix'] . "_topics` WHERE DATE_CREATION = '" . $datemtn . "'");
             $cfi = $cfi->fetch();
 
-            $insert = $bdd->prepare("INSERT INTO `" . $_Config_['Database']['table_prefix'] . "_messages`(`USER_ID`, `CONTENT`, `DATE_POST`, `TOPIC_ID`, `FORUM_ID`) VALUES (?,?,NOW(),?,?)");
+            $insert = $bdd->prepare("INSERT INTO `" . $_Config_['Database']['table_prefix'] . "_messages`(`USER_ID`, `CONTENT`, `DATE_POST`, `TOPIC_ID`, `FORUM_ID`, `STATUS`) VALUES (?,?,NOW(),?,?,0)");
             $insert->execute(array($userinfo['id'], $_POST['content'], $cfi['id'], htmlspecialchars($_GET['id'])));
 
             $laf = $bdd->prepare("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_follow WHERE TYPE = 'FORUM' AND SPACE_ID = ?");
