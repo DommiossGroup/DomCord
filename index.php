@@ -1,5 +1,11 @@
 <?php
 
+if (file_exists("installation/")) {
+
+	header("Location: installation/");
+	die();
+}
+
 include("./assets/classes/yml.class.php");
 
 $_Config_ = new Read('config/config.yml');
@@ -22,11 +28,6 @@ $_database_ = $_database_->GetTableau();
 $_maintenance_ = new Read('maintenance/maintenance.yml');
 $_maintenance_ = $_maintenance_->GetTableau();
 
-if (file_exists("installation/")) {
-
-	header("Location: installation/");
-	die();
-}
 
 session_start();
 
@@ -151,29 +152,31 @@ if ($cib->rowCount() > 0) {
 
 // Page content including
 
-if (!isset($_GET['page'])) $page = "home";
+if (isset($_GET['page'])) {
 	$page = htmlspecialchars($_GET['page']);
-	$path = "themes/" . $_Config_['General']['theme'] . "/" . $page . ".php";
+} else {
+	$page = "home";
+}
+$path = "themes/" . $_Config_['General']['theme'] . "/" . $page . ".php";
 
+if (file_exists($path)) {
+	include($path);
+} else {
+	$cfp = $bdd->prepare("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_pages WHERE PATH = ?");
+	$cfp->execute(array("?page=" . $_GET['page']));
 
-	if (file_exists($path)) {
-		include($path);
+	if ($cfp->rowCount() > 0) {
+		$cfp = $cfp->fetch();
+		include("themes/" . $_Config_['General']['theme'] . "/custom.php");
 	} else {
-		$cfp = $bdd->prepare("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_pages WHERE PATH = ?");
-		$cfp->execute(array("?page=" . $_GET['page']));
-
-		if ($cfp->rowCount() > 0) {
-			$cfp = $cfp->fetch();
-			include("themes/" . $_Config_['General']['theme'] . "/custom.php");
+		if (file_exists("themes/" . $_Config_['General']['theme'] . "/error.404.php")) {
+			include("themes/" . $_Config_['General']['theme'] . "/error.404.php");
 		} else {
-			if (file_exists("themes/" . $_Config_['General']['theme'] . "/error.404.php")) {
-				include("themes/" . $_Config_['General']['theme'] . "/error.404.php");
-			} else {
-				echo str_replace('{ERROR_DETAILS}', 'Theme folder could not be find.', file_get_contents("https://api.dommioss.fr/cdn/domcord/error-database.php"));
-				die();
-			}
+			echo str_replace('{ERROR_DETAILS}', 'Theme folder could not be find.', file_get_contents("https://api.dommioss.fr/cdn/domcord/error-database.php"));
+			die();
 		}
 	}
+}
 
 
 
