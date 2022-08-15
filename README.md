@@ -1,4 +1,4 @@
-<p align="center"><img src="https://domcord.dommioss.fr/img/assets/images/domcord.ico"></p>
+<p align="center"><img src="https://domcord.dommioss.fr/assets/images/domcord.ico"></p>
 
 **🚧 Licenses.** Using DomCord with a license is mantory. You can get one [here](https://domcord.dommioss.fr/?page=licenses "here").<br>
 **🚨 Terms of Service.** Please read our [Terms of Service](https://dommioss.fr/cgu "Terms of Service"). *(Note they are written in french)*<br>
