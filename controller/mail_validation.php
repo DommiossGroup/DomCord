@@ -1,5 +1,9 @@
 <?php
 
+// Cette section est temporairement désactivée
+// This section is temporary disabled
+
+/*
 if(isset($_GET['code']) AND !empty($_GET['code'])){
 
     $cfc = $bdd->prepare("SELECT * FROM ".$_Config_['Database']['table_prefix']."_emailcode WHERE CODE = ?");
@@ -27,5 +31,5 @@ if(isset($_GET['code']) AND !empty($_GET['code'])){
     $error = "<div class='alert alert-danger'><strong><i class='fas fa-exclamation-circle text-danger'></i></strong> Verification code is invalid.</div>";
         echo '<meta http-equiv="refresh" content="5;URL=?page=login">';
 }
-
+*/
 ?>
