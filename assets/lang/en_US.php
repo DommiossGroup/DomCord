@@ -41,6 +41,8 @@ class Lang
     const access_denied_404_errorcode = "Error code: File not found in theme folder (404)";
 
     // Texts
+    const pub_alert = "Do you like our forum? Do not hesitate to register !";
+    const thank_you = "Thank you";
     const any_account = "I don't have any account";
     const already_account = "I already have an account";
     const maintenance_superadmin = "Your website is actually under maintenance. Only ranks with \"SUPERADMIN\" permission can access to the website.";

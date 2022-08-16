@@ -13,7 +13,7 @@ class Lang
     const subtitle_verification = "VERIFICATION DE COMPTE";
 
     // Navbar
-    const navbar_admin = "Panneau d'Admin";
+    const navbar_admin = "Panneau d'Administration";
     const navbar_account = "Mon compte";
     const navbar_logout = "Déconnexion";
     const navbar_signin = "Connexion";
@@ -41,6 +41,8 @@ class Lang
     const access_denied_404_errorcode = "Code d'erreur: Fichier non trouvé dans le dossier de thèmes (404)";
 
     // Texts
+    const pub_alert = "Tu aimes notre forum ? Pense à t'inscrire !";
+    const thank_you = "Merci";
     const any_account = "Je n'ai pas de compte";
     const already_account = "J'ai déjà un compte";
     const maintenance_superadmin = "Votre site est actuellement en maintenance. Seul les utilisateurs avec la permission \"SUPERADMIN\" peuvent y accéder";
