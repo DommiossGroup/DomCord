@@ -150,6 +150,7 @@ include("./assets/controllers/verifications.php");
                         <fieldset>
                             <h3>Vous avez terminé la configuration</h3>
                             <h6><b>Veuillez supprimer le dossier <code>./installation/</code> de votre FTP/SFTP</b></h6>
+                            <h6><b>Veuillez supprimer le dossier <code>./installControllers/</code> de votre FTP/SFTP</b></h6>
                             <div class="passport">
                                 <h4>Télécharger le CMS <br>Saisir la clé de licence <br>Personnaliser votre forum<br> Configurer la base de donnée<br> Créer un compte Superadministrateur.</h4>
                                 <a href="#" class="don_icon"><i class="ion-android-done"></i></a>
