@@ -1,6 +1,6 @@
 <?php
 
-if (file_exists("installation/")) {
+if (file_exists("installation/") || file_exists("installControllers/")) {
 
 	header("Location: installation/");
 	die();
@@ -32,7 +32,7 @@ $_maintenance_ = $_maintenance_->GetTableau();
 session_start();
 
 try {
-	$bdd = new PDO('mysql:host=' . $_database_['dbAdress'] . ';dbname=' . $_database_['dbName'] . ';port=' . $_database_['dbPort'], $_database_['dbUser'], $_database_['dbPassword']);
+	$bdd = new PDO('mysql:host=' . $_database_['dbAdress'] . ';dbname=' . $_database_['dbName'] . ';port=' . $_database_['dbPort'] . ';charset=utf8mb4', $_database_['dbUser'], $_database_['dbPassword']);
 } catch (PDOEXCEPTION $e) {
 	$_license_ = new Read('./config/cms_info.yml');
 	$_license_ = $_license_->GetTableau();
