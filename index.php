@@ -1,7 +1,6 @@
 <?php
 
-if (file_exists("installation/") || file_exists("installControllers/")) {
-
+if (file_exists("installation/")) {
 	header("Location: installation/");
 	die();
 }
@@ -24,24 +23,19 @@ include("assets/lang/" . $_Config_['General']['language'] . ".php");
 $_database_ = new Read('config/database.yml');
 $_database_ = $_database_->GetTableau();
 
-
 $_maintenance_ = new Read('maintenance/maintenance.yml');
 $_maintenance_ = $_maintenance_->GetTableau();
-
 
 session_start();
 
 try {
 	$bdd = new PDO('mysql:host=' . $_database_['dbAdress'] . ';dbname=' . $_database_['dbName'] . ';port=' . $_database_['dbPort'] . ';charset=utf8mb4', $_database_['dbUser'], $_database_['dbPassword']);
-} catch (PDOEXCEPTION $e) {
+} catch (PDOEXCEPTION $error) {
 	$_license_ = new Read('./config/cms_info.yml');
 	$_license_ = $_license_->GetTableau();
-
-	echo str_replace('{ERROR_DETAILS}', $e, file_get_contents("https://api.dommioss.fr/cdn/domcord/error-database.php?contenu=" . $e->getCode() . "&licencekey=" . $_license_['license_key'] . "&domain=" . $_SERVER['HTTP_HOST']));
-
+	include("./controller/error.php");
 	die();
 }
-
 
 if (isset($_SESSION['id'])) {
 
@@ -114,12 +108,9 @@ if (isset($_SESSION['id'])) {
 	$nb_unread = $notificationlist_unread->rowCount();
 }
 
-
 $listlinks = $bdd->query("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_footer WHERE TYPE = 'LINKS'");
 $listpages = $bdd->query("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_footer WHERE TYPE = 'PAGES'");
 $listcontacts = $bdd->query("SELECT * FROM " . $_Config_['Database']['table_prefix'] . "_footer WHERE TYPE = 'CONTACT' LIMIT 4");
-
-
 
 // Maintenance system
 
@@ -172,7 +163,8 @@ if (file_exists($path)) {
 		if (file_exists("themes/" . $_Config_['General']['theme'] . "/error.404.php")) {
 			include("themes/" . $_Config_['General']['theme'] . "/error.404.php");
 		} else {
-			echo str_replace('{ERROR_DETAILS}', 'Theme folder could not be find.', file_get_contents("https://api.dommioss.fr/cdn/domcord/error-database.php"));
+			$error = "Theme folder could not be find.";
+			include("./controller/error.php");
 			die();
 		}
 	}
