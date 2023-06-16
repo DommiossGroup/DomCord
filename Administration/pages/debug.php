@@ -1,17 +1,10 @@
 <?php
 
-
 $pagetitle = "Debug mode";
 include("assets/includes/header.php");
 
-
-$data = file_get_contents("https://api.dommioss.fr/domcord/download/last_update.json");
-$obj = json_decode($data);
-
-
-$data2 = file_get_contents("https://api.dommioss.fr/domcord/licence_verify.php?key=" . $_license_['license_key'] . "&domain=" . $_SERVER['HTTP_HOST'] . "");
-$obj2 = json_decode($data2);
-
+$data = file_get_contents("https://api.dommioss.fr/domcord/licence_verify.php?key=" . $_license_['license_key'] . "&domain=" . $_SERVER['HTTP_HOST'] . "");
+$data = json_decode($data);
 ?>
 
 <!-- Main Content -->
@@ -49,7 +42,7 @@ $obj2 = json_decode($data2);
 					<div class="card-body">
 						<?php
 
-						if ($obj2->status === 0) {
+						if ($data->status === 0) {
 							$licenceStatus = "Yes";
 						} else {
 							$licenceStatus = "No";
@@ -69,7 +62,7 @@ $obj2 = json_decode($data2);
 						echo "<br><i class='fab fa-google text-success'></i> Keywords: <b>" . $_Config_['Metadata']['keywords'] . "</b>";
 						echo "<br><i class='fab fa-google text-success'></i> Bots: <b>" . $_Config_['Metadata']['robots'] . "</b>";
 						echo "<br><i class='fas fa-exclamation-circle text-info'></i> Max. accounts per ip adress: <b>" . $_Config_['Security']['max_account_per_ip'] . "</b>";
-						echo "<br><i class='fas fa-money-bill-wave text-primary'></i> License type: <b>" . $obj2->type . "</b>";
+						echo "<br><i class='fas fa-money-bill-wave text-primary'></i> License type: <b>" . $data->type . "</b>";
 						echo "<br><i class='fas fa-money-bill-wave text-primary'></i> Is my license valid ? : <b><code>" . $licenceStatus . "</b></code>";
 						echo "<br><i class='fas fa-server text-info'></i> DomCord current version : <b><code>" . $_Config_['version'] . "</b></code>"; ?>
 

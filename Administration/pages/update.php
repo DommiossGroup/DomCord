@@ -1,9 +1,7 @@
 <?php
 
-
 $pagetitle = "Check for update";
 include("assets/includes/header.php");
-
 
 if ($userrank["SUPERADMIN"] !== "on") {
 	echo '<meta http-equiv="refresh" content="0;URL=?page=error.403">';
